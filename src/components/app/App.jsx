@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     const newState = data.filter((e) =>
-      e.name.toLowerCase().includes(searchQuery.toLowerCase())
+      e.name.toLowerCase().includes(searchQuery)
     );
     setCards(() => [...newState]);
   }, [searchQuery]);
