@@ -40,7 +40,56 @@ class Api {
             method: like ? 'DELETE' : 'PUT',
         }).then((res) => onResponse(res));
     }
+    getProduct(productId) {
+        return fetch(`${this._baseUrl}/products/${productId}`, {
+            headers: this._headers,
+            method: 'GET'
+        }).then((res) => onResponse(res));
+    }
+    createProduct() {
+        return fetch(`${this._baseUrl}/products`, {
+            headers: this._headers,
+            method: 'POST'
+        }).then((res) => onResponse(res));
+    }
+    changeProduct(productId) {
+        return fetch(`${this._baseUrl}/products/${productId}`, {
+            headers: this._headers,
+            method: 'PATCH'
+        }).then((res) => onResponse(res));
+    }
+    deleteProduct(productId) {
+        return fetch(`${this._baseUrl}/products/${productId}`, {
+            headers: this._headers,
+            method: 'DELETE'
+        }).then((res) => onResponse(res));
+    }
+    commentProduct(productId) {
+        return fetch(`${this._baseUrl}/products/review/${productId}`, {
+            headers: this._headers,
+            method: 'POST'
+        }).then((res) => onResponse(res));
+    }
+    deleteCommentProduct(productId, reviewId) {
+        return fetch(`${this._baseUrl}/products/review/${productId}/${reviewId}`, {
+            headers: this._headers,
+            method: 'DELETE'
+        }).then((res) => onResponse(res));
+    }
+    getAllCommentProducts() {
+        return fetch(`${this._baseUrl}/products/`, {
+            headers: this._headers,
+            method: 'GET'
+        }).then((res) => onResponse(res));
+    }
+    getCommentProduct(productId) {
+        return fetch(`${this._baseUrl}/products/review/${productId}`, {
+            headers: this._headers,
+            method: 'GET'
+        }).then((res) => onResponse(res));
+    }
 }
 
 
 export const api = new Api(config);
+
