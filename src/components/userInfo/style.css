@@ -1,0 +1,28 @@
+.user__info {
+    position: relative;
+    display: flex;
+    border-radius: 10px;
+}
+
+.user__info:hover {
+    box-shadow: 0 2px 4px rgba(27, 31, 110, 0.04), 0 8px 16px rgba(12, 31, 231, 0.16);
+}
+
+.bender {
+    width: 60px;
+    border-radius: 50px;
+    padding: 10px;
+    align-items: center;
+  }
+
+  .user__data {
+    display: flex;  
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .user__name {
+    font-size: 22px;
+    font-weight: 600;
+  }

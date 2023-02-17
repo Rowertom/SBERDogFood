@@ -2,15 +2,16 @@ import './style.css'
 import { Card } from '../card/Card';
 
 
-export const CardList = ({cards}) => {
+export const CardList = ({cards, onProductLike, currentUser}) => {
     return (
         <div className='cards'>
-            {cards.map((item, i) => {
-               return     <Card key={i}
-                            picture={item.picture}
-                            name={item.name}
-                            discount={item.discount}
-                            price={item.price}
+            {cards.map((item) => {
+                return     <Card 
+                {...item} 
+                key={item._id} 
+                product={item} 
+                onProductLike={onProductLike}
+                currentUser={currentUser}
                     />;
             })}
         </div>

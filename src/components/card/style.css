@@ -96,8 +96,16 @@
 	border: none;
 	padding: 0;
 	display: flex;
+	
 }
 
+.count__likes {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 12px;
+	opacity: 0.3;
+}
 .card__cart {
 	margin-top: auto;
 }
@@ -143,8 +151,7 @@
 	color: #FFFFFF;
 }
 svg {
-    fill: blue;
-	opacity: 0.1;
+	fill: antiquewhite;
 }
 .card__liked > svg {
   fill: red;

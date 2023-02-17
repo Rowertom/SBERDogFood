@@ -1,8 +1,9 @@
 import { Logo } from '../logo/Logo';
 import { Search } from '../search/Search';
+import { UserInfo } from '../userInfo/UserInfo';
 import './style.css';
 
-export const Header = ({setSearchQuery}) => {
+export const Header = ({setSearchQuery, currentUser}) => {
 
     return (
         <div className='header' id='head'>
@@ -12,7 +13,7 @@ export const Header = ({setSearchQuery}) => {
                         <Logo />
                         <Search setSearchQuery={setSearchQuery}/>
                     </div>
-                    <div>Войти</div>
+                    <div><UserInfo currentUser={currentUser}/></div>
                 </div>
             </div>
         </div>

@@ -1,43 +1,54 @@
 import { useEffect, useState } from 'react';
 import { CardList } from '../cardList/CardList';
 import { Header } from '../header/Header';
-import data from '../../data/data.json'
 import './style.css';
+import { cast, useDebounce } from '../../utils/Utils';
+import { api } from '../../utils/Api';
+
 
 function App() {
   const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
+
+
+  const handleSearch = (search) => {
+    api.searchProducts(search).then((data) => setCards([...data]));
+  };
+
+  const debounceValueInApp = useDebounce(searchQuery, 500);
 
   useEffect(() => {
-    const newState = data.filter((e) =>
-      e.name.toLowerCase().includes(searchQuery)
-    );
-    setCards(() => [...newState]);
-  }, [searchQuery]);
+    handleSearch(debounceValueInApp);
+  }, [debounceValueInApp]);
 
-  function cast(numb) {
-    const tempNumb = numb % 100;
-    if(tempNumb > 10 && tempNumb < 20){
-        return numb + " товаров";
-    }
-    switch (numb % 10){
-        case 1: return numb + " товар";
-        case 2: 
-        case 3:
-        case 4: return numb + " товара";
-        default: return numb + " товаров";
-    }
-}
+  useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getProductList()]).then(
+      ([userData, productData]) => {
+        setCurrentUser(userData);
+        setCards(productData.products);
+      }
+    );
+  }, []);
+
+  function handleProductLike(product) {
+    const isLiked = product.likes.some(id => id === currentUser._id);
+    api.changeLikeProductStatus(product._id, isLiked).then((newCard) => {
+      const newCards = cards.map((e) => e._id === newCard._id ? newCard : e);
+      setCards([...newCards]);
+    });
+  }
+
   return (
     <>
-    <Header setSearchQuery={setSearchQuery}/>
+      <Header setSearchQuery={setSearchQuery} currentUser={currentUser} />
       <main className='content container'>
         {searchQuery && (
           <p>
             По запросу {searchQuery} найдено {cast(cards.length)}
           </p>
         )}
-        <CardList cards={cards}/>
+        <CardList cards={cards} onProductLike={handleProductLike} currentUser={currentUser} />
       </main>
     </>
   );
