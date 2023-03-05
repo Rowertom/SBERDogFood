@@ -1,0 +1,16 @@
+.not__found{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    padding: 50px;
+    &__btn{
+        padding: 20px;
+        font-size: 20px;
+        cursor: pointer;
+        &:hover{
+            background-color: aquamarine;
+        }
+    }
+}

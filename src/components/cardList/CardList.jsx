@@ -1,8 +1,13 @@
 import './style.css'
 import { Card } from '../card/Card';
+import { useContext } from 'react';
+import { CardContext } from '../../context/cardContext';
 
 
-export const CardList = ({cards, onProductLike, currentUser}) => {
+export const CardList = () => {
+
+    const {cards} = useContext(CardContext);
+
     return (
         <div className='cards'>
             {cards.map((item) => {
@@ -10,8 +15,6 @@ export const CardList = ({cards, onProductLike, currentUser}) => {
                 {...item} 
                 key={item._id} 
                 product={item} 
-                onProductLike={onProductLike}
-                currentUser={currentUser}
                     />;
             })}
         </div>

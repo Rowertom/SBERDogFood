@@ -2,7 +2,7 @@ const config = {
     baseUrl: 'https://api.react-learning.ru',
     headers: {
         'content-type': 'application/json',
-        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VkNTI3NzU5Yjk4YjAzOGY3N2I2N2YiLCJncm91cCI6Imdyb3VwLTEwIiwiaWF0IjoxNjc2NDk3ODAxLCJleHAiOjE3MDgwMzM4MDF9.gjSdw_j_fZ_OwrOcZP3oPyk2TPeHvN76u5Nltk1xeg4'
+        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VkNTI3NzU5Yjk4YjAzOGY3N2I2N2YiLCJncm91cCI6Imdyb3VwLTEwIiwiaWF0IjoxNjc3ODkwMTUyLCJleHAiOjE3MDk0MjYxNTJ9.sGu2zm5fLJ58wyGr-QhLRQWP5PAfJWSMMzrLWlpNKjo'
     },
 };
 

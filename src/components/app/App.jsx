@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
-import { CardList } from '../cardList/CardList';
 import { Header } from '../header/Header';
 import './style.css';
-import { cast, useDebounce } from '../../utils/Utils';
+import { findLike, useDebounce } from '../../utils/Utils';
 import { api } from '../../utils/Api';
+import { UserContext } from '../../context/userContext';
+import { CardContext } from '../../context/cardContext';
+import { Route, Routes } from 'react-router-dom';
+import { CatalogPage } from '../../pages/catalogPage/CatalogePage';
+import { ProductPage } from '../../pages/productPage/ProductPage';
+import { Page404 } from '../../pages/page404/Page404';
 
 
 function App() {
   const [cards, setCards] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
-
 
   const handleSearch = (search) => {
     api.searchProducts(search).then((data) => setCards([...data]));
@@ -19,6 +23,7 @@ function App() {
   const debounceValueInApp = useDebounce(searchQuery, 500);
 
   useEffect(() => {
+    if (debounceValueInApp === undefined) return;
     handleSearch(debounceValueInApp);
   }, [debounceValueInApp]);
 
@@ -32,24 +37,54 @@ function App() {
   }, []);
 
   function handleProductLike(product) {
-    const isLiked = product.likes.some(id => id === currentUser._id);
+    const isLiked = findLike(product, currentUser);
     api.changeLikeProductStatus(product._id, isLiked).then((newCard) => {
       const newCards = cards.map((e) => e._id === newCard._id ? newCard : e);
       setCards([...newCards]);
     });
   }
 
+  const setSortCards = (sort) => {
+    if (sort === 'Сначала дешевые') {
+      const newCards = cards.sort((a, b) => a.price - b.price);
+      setCards([...newCards])
+    }
+    if (sort === 'Сначала дорогие') {
+      const newCards = cards.sort((a, b) => b.price - a.price);
+      setCards([...newCards])
+    }
+    if (sort === 'Популярные') {
+      const newCards = cards.sort((a, b) => b.likes.length - a.likes.length);
+      setCards([...newCards])
+    }
+    if (sort === 'Новинки') {
+      const newCards = cards.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      setCards([...newCards])
+    }
+    if (sort === 'По скидке') {
+      const newCards = cards.sort((a, b) => b.discount - a.discount);
+      setCards([...newCards])
+    }
+  }
+
+  const contextUserValue = { currentUser, searchQuery, setSearchQuery, setSortCards };
+  const contextCardValue = { cards, onProductLike: handleProductLike };
+
   return (
     <>
-      <Header setSearchQuery={setSearchQuery} currentUser={currentUser} />
-      <main className='content container'>
-        {searchQuery && (
-          <p>
-            По запросу {searchQuery} найдено {cast(cards.length)}
-          </p>
-        )}
-        <CardList cards={cards} onProductLike={handleProductLike} currentUser={currentUser} />
-      </main>
+      <UserContext.Provider value={contextUserValue}>
+        <CardContext.Provider value={contextCardValue}>
+          <Header />
+          <main className='content container'>
+            <Routes>
+              <Route path='/' element={<CatalogPage />}></Route>
+              <Route path='product/:productId' element={<ProductPage />}></Route>
+              <Route path='*' element={<Page404/>}>
+              </Route>
+            </Routes>
+          </main>
+        </CardContext.Provider>
+      </UserContext.Provider>
     </>
   );
 }

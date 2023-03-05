@@ -1,6 +1,10 @@
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 import './style.css';
 
-export const Search = ({setSearchQuery}) => {
+export const Search = () => {
+
+  const {setSearchQuery}  = useContext(UserContext);
   
   return (<input
       placeholder='Поиск'

@@ -1,8 +1,15 @@
 
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { CardContext } from '../../context/cardContext';
+import { UserContext } from '../../context/userContext';
 import { ReactComponent as Like } from './like.svg';
 import './style.css';
 
-export const Card = ({ pictures, name, discount, price, wight, product, onProductLike, currentUser }) => {
+export const Card = ({ pictures, name, discount, price, wight, product }) => {
+
+    const {currentUser} = useContext(UserContext);
+    const {onProductLike} = useContext(CardContext);
     
     const isLiked = product.likes.some((e) => e === currentUser._id);
     function handleLikeClick() {
@@ -22,14 +29,14 @@ export const Card = ({ pictures, name, discount, price, wight, product, onProduc
                 {product.likes.length}
                 </div>
             </div>
-            <a href='/' className='card__link'>
+            <Link to={`/product/${product._id}`} className='card__link'>
                 <img src={pictures} alt='image__error' className='card__image' />
                 <div className='card__data'>
                     <span className='card__price'>{price}p</span>
                     <span className='card__wight'>{wight}</span>
                     <p className='card__descriprion'> {name}</p>
                 </div>
-            </a>
+            </Link>
             <a href='/' className='card__btn btn__type__primary'>В корзину</a>
         </div>
     );

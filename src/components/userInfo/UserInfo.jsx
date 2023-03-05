@@ -1,6 +1,11 @@
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 import './style.css'
 
-export const UserInfo = ({currentUser}) => {
+export const UserInfo = () => {
+
+    const {currentUser} = useContext(UserContext);
+
     return (<div className="user__info">
         <div>
             <img className='bender' src={currentUser.avatar} alt='no__photo'  />
