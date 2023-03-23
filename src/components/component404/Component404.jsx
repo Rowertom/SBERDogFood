@@ -7,7 +7,7 @@ export const Component404 = () => {
 
     return <>
         <div className="not__found">
-            <img classNames='not__found__img'src={Face} alt="img" />
+            <img className='not__found__img'src={Face} alt="img" />
             404 not found
             <button className='not__found__btn' onClick={() => navigate('/')}>На главную</button>
         </div>

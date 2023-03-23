@@ -9,6 +9,8 @@ import { Route, Routes } from 'react-router-dom';
 import { CatalogPage } from '../../pages/catalogPage/CatalogePage';
 import { ProductPage } from '../../pages/productPage/ProductPage';
 import { Page404 } from '../../pages/page404/Page404';
+import { FaqPage } from '../../pages/faqPage/FAQPage';
+import { Footer } from '../footer/Footer';
 
 
 function App() {
@@ -79,10 +81,11 @@ function App() {
             <Routes>
               <Route path='/' element={<CatalogPage />}></Route>
               <Route path='product/:productId' element={<ProductPage />}></Route>
-              <Route path='*' element={<Page404/>}>
-              </Route>
+              <Route path='*' element={<Page404/>}></Route>
+              <Route path='faq' element={<FaqPage/>}></Route>
             </Routes>
           </main>
+          <Footer/>
         </CardContext.Provider>
       </UserContext.Provider>
     </>
