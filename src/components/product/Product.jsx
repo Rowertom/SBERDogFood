@@ -1,4 +1,4 @@
-import s from './index.module.scss';
+import s from './style.module.scss';
 import cn from 'classnames';
 import truck from './img/truck.svg';
 import quality from './img/quality.svg';
@@ -9,11 +9,14 @@ import { api } from "../../utils/Api";
 import { UserContext } from '../../context/userContext';
 import { findLike } from '../../utils/Utils';
 import { CardContext } from '../../context/cardContext';
+import { Rating } from "../rating/Rating";
 
 export const Product = ({ id }) => {
 
 
     const [product, setProduct] = useState({});
+    const [rate, setRate] = useState(3);
+    const [currentRating, setCurrentRating] = useState(0);
 
     useEffect(() => {
         api.getProduct(id).then((data) => setProduct(data));
@@ -22,9 +25,18 @@ export const Product = ({ id }) => {
     const navigate = useNavigate();
 
     const { currentUser } = useContext(UserContext);
-    const {onProductLike} = useContext(CardContext);
-    const isLiked = product?.likes?.some((e) => e === currentUser._id);
-    console.log({isLiked});
+    const { onProductLike } = useContext(CardContext);
+    const isLiked = findLike(product, currentUser);
+
+    useEffect(() => {
+        if (!product?.reviews) return;
+        const rateAcc = (product.reviews.reduce((acc, el) => acc = acc + el.rating, 0));
+        const accum = (Math.floor(rateAcc / product.reviews.length))
+        setRate(accum);
+        setCurrentRating(accum)
+      }, [product?.reviews]);
+    
+
     function handleLikeClick() {
         onProductLike(product);
     }
@@ -35,6 +47,12 @@ export const Product = ({ id }) => {
                 <button className={`${s.back__button}`} onClick={() => navigate('/')}>
                     &lt;&nbsp;Назад
                 </button>
+                <h1>{product.name}</h1>
+                <div className={s.rateInfo}>
+                    <span>Art <b>2388907</b></span>
+                    <Rating rate={rate} setRate={setRate} currentRating={currentRating} />
+                    <span>{product?.reviews?.length} отзывов</span>
+                </div>
             </div>
             <div className={s.product}>
                 <div className={s.imgWrapper}>
@@ -63,8 +81,8 @@ export const Product = ({ id }) => {
                         </button>
                     </div>
                     <button className={
-                    `${isLiked ? s.favoriteActive : s.favorite}`}
-                    onClick={handleLikeClick}>
+                        `${isLiked ? s.favoriteActive : s.favorite}`}
+                        onClick={handleLikeClick}>
                         <Like />
                         <span>{isLiked ? "В избранном" : "В избранное"}</span>
                     </button>

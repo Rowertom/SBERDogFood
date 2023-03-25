@@ -17,6 +17,6 @@ export const CatalogPage = () => {
                 </p>
               )}
               <Sort/>
-              <CardList/>
+              <CardList cards={cards} />
     </>
 };

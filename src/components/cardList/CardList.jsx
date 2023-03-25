@@ -1,12 +1,8 @@
 import './style.css'
 import { Card } from '../card/Card';
-import { useContext } from 'react';
-import { CardContext } from '../../context/cardContext';
 
 
-export const CardList = () => {
-
-    const {cards} = useContext(CardContext);
+export const CardList = ({cards}) => {
 
     return (
         <div className='cards'>
